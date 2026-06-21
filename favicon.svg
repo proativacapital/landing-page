@@ -1,0 +1,13 @@
+<!-- ============================================================
+     FAVICON — Símbolo da marca (bússola de 4 pontas)
+     Fundo azul-noite (--ink), estrela em branco-quente (--paper)
+     e a PONTA NORTE em terracota (--accent).
+     EDITAR: se as cores da marca mudarem, ajuste os hex abaixo.
+     ============================================================ -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <rect width="64" height="64" rx="14" fill="#14213A"/>
+  <!-- corpo da estrela-bússola -->
+  <path d="M32 8 L36.2 27.8 L56 32 L36.2 36.2 L32 56 L27.8 36.2 L8 32 L27.8 27.8 Z" fill="#FBFAF8"/>
+  <!-- ponta norte em terracota -->
+  <path d="M32 8 L36.2 27.8 L27.8 27.8 Z" fill="#E0683C"/>
+</svg>

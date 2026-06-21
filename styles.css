@@ -1,0 +1,488 @@
+/* ============================================================================
+   NORTIA — Folha de estilo única
+   ----------------------------------------------------------------------------
+   Filosofia visual: sobriedade e minimalismo de confiança.
+   Base sóbria (azul-noite sobre branco-quente, muito respiro) + UMA cor de
+   acento (terracota) usada pontualmente. 90% neutro, 10% cor.
+
+   Estrutura deste arquivo:
+     1. Variáveis (cores, tipografia, espaçamentos)
+     2. Reset e base
+     3. Utilitários de layout (container, seções, ritmo claro/escuro)
+     4. Componentes (botões, kicker, cards, etc.)
+     5. Cabeçalho
+     6. Seções (hero, dor, virada, como, resultado, diferencial, urgência,
+        para-quem, CTA final)
+     7. Rodapé
+     8. Animação de scroll-reveal
+     9. Responsivo (mobile-first: o base já é mobile; ajustes para telas largas)
+   ============================================================================ */
+
+/* ============================================================
+   1. VARIÁVEIS
+   EDITAR: a paleta inteira da marca vive aqui. Trocar uma cor
+   em um único lugar reflete na página toda.
+   ============================================================ */
+:root {
+  /* --- Cores --- */
+  --ink:         #14213A; /* azul-noite profundo — texto, títulos, fundo do CTA final */
+  --paper:       #FBFAF8; /* branco-quente — fundo principal */
+  --paper-alt:   #F2F4F7; /* cinza-névoa muito claro — seções alternadas (ritmo) */
+  --accent:      #E0683C; /* terracota — ACENTO: símbolo, números, links, CTA */
+  --accent-soft: #F0A283; /* acento claro — hovers */
+  --muted:       #5B6472; /* cinza-ardósia — textos secundários */
+  --line:        #E3E6EB; /* linha clara — divisores discretos */
+  --white:       #FFFFFF;
+
+  /* --- Tipografia --- */
+  --font-title: "Space Grotesk", "Segoe UI", system-ui, sans-serif;
+  --font-body:  "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* --- Ritmo / medidas --- */
+  --radius:     7px;   /* cantos pouco arredondados */
+  --container:  1080px;
+  --pad-x:      clamp(20px, 5vw, 32px);          /* respiro lateral */
+  --section-y:  clamp(64px, 10vw, 120px);        /* respiro vertical amplo das seções */
+
+  /* --- Sombras (discretas, nunca pesadas) --- */
+  --shadow-sm: 0 1px 2px rgba(20, 33, 58, 0.04);
+  --shadow-md: 0 12px 32px -12px rgba(20, 33, 58, 0.12);
+}
+
+/* ============================================================
+   2. RESET E BASE
+   ============================================================ */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+* { margin: 0; }
+
+html {
+  scroll-behavior: smooth;           /* rolagem suave para âncoras internas */
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: clamp(1.0625rem, 0.5vw + 1rem, 1.1875rem); /* 17px → 19px */
+  line-height: 1.65;
+  color: var(--ink);
+  background: var(--paper);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+img, svg { display: block; max-width: 100%; }
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { color: var(--accent-soft); }
+
+h1, h2, h3 {
+  font-family: var(--font-title);
+  font-weight: 500;                  /* medium, nunca bold — sério e confiante sem gritar */
+  line-height: 1.15;
+  color: var(--ink);
+  letter-spacing: -0.5px;
+}
+
+strong { font-weight: 500; }         /* ênfase no corpo usa Inter 500 */
+
+/* ============================================================
+   3. UTILITÁRIOS DE LAYOUT
+   ============================================================ */
+
+/* Container central com respiro lateral */
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--pad-x);
+}
+
+/* Seção padrão com respiro vertical amplo */
+.section {
+  padding-block: var(--section-y);
+  scroll-margin-top: 90px;           /* compensa o cabeçalho fixo ao rolar para âncoras */
+}
+
+/* Ritmo claro/escuro SEM usar cor: alterna branco-quente e cinza-névoa */
+.section--alt { background: var(--paper-alt); }
+
+/* Cabeçalho de seção (título + texto introdutório) */
+.section-head { max-width: 720px; margin-bottom: clamp(36px, 5vw, 56px); }
+.section-head--center { margin-inline: auto; text-align: center; }
+
+.section-title {
+  font-size: clamp(1.75rem, 3vw + 0.5rem, 2.375rem); /* 28px → 38px */
+}
+
+.section-intro {
+  margin-top: 18px;
+  color: var(--muted);
+  max-width: 60ch;
+}
+
+/* Divisor fino e discreto */
+.divider { height: 1px; background: var(--line); border: 0; }
+
+/* ============================================================
+   4. COMPONENTES
+   ============================================================ */
+
+/* --- Kicker: pequena linha-âncora acima dos títulos (a tagline mora aqui) --- */
+.kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-title);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.kicker svg { width: 16px; height: 16px; }
+
+/* --- Botões --- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-title);
+  font-weight: 500;
+  font-size: 1.0625rem;
+  line-height: 1;
+  padding: 16px 26px;
+  border-radius: var(--radius);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: transform .18s ease, background-color .18s ease, color .18s ease, border-color .18s ease;
+}
+.btn:hover { transform: translateY(-1px); }
+
+/* Botão primário (acento terracota) */
+.btn--primary {
+  background: var(--accent);
+  color: var(--white);
+}
+.btn--primary:hover { background: var(--accent-soft); color: var(--white); }
+
+/* Botão sobre fundo escuro (CTA final) */
+.btn--on-dark {
+  background: var(--accent);
+  color: var(--white);
+  font-size: 1.1875rem;
+  padding: 19px 32px;
+}
+.btn--on-dark:hover { background: var(--accent-soft); }
+
+/* Botão discreto / contorno (CTA do cabeçalho) */
+.btn--ghost {
+  background: transparent;
+  color: var(--ink);
+  border-color: var(--line);
+  padding: 11px 18px;
+  font-size: 0.9375rem;
+}
+.btn--ghost:hover { border-color: var(--ink); color: var(--ink); }
+
+/* --- Logo (símbolo de bússola + wordmark) --- */
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--ink);
+}
+.logo-mark { width: 30px; height: 30px; flex-shrink: 0; }
+.logo-mark .mark-body  { fill: var(--ink); }
+.logo-mark .mark-north { fill: var(--accent); } /* ponta norte em terracota */
+
+.logo-word {
+  font-family: var(--font-title);
+  font-weight: 500;
+  font-size: 1.3125rem;
+  letter-spacing: 0.5px;             /* wordmark levemente espaçada */
+  color: var(--ink);
+}
+
+/* --- Textura de "rosa dos ventos" (decorativa, discretíssima) --- */
+.compass-bg {
+  position: absolute;
+  pointer-events: none;
+  color: var(--ink);                 /* a cor é herdada pelo stroke/fill via currentColor */
+  opacity: 0.05;                     /* ~5% — quase imperceptível */
+}
+
+/* ============================================================
+   5. CABEÇALHO
+   ============================================================ */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: color-mix(in srgb, var(--paper) 85%, transparent);
+  backdrop-filter: saturate(140%) blur(10px);
+  border-bottom: 1px solid transparent;
+  transition: border-color .25s ease, background-color .25s ease;
+}
+/* Ganha uma linha discreta só depois que o usuário rola um pouco */
+.site-header.is-scrolled {
+  border-bottom-color: var(--line);
+  background: color-mix(in srgb, var(--paper) 92%, transparent);
+}
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-block: 14px;
+}
+
+/* ============================================================
+   6. SEÇÕES
+   ============================================================ */
+
+/* --- HERO --- */
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding-block: clamp(56px, 9vw, 104px) clamp(64px, 10vw, 120px);
+  text-align: center;
+}
+.hero .compass-bg {
+  top: -120px;
+  right: -120px;
+  width: min(520px, 80vw);
+  height: min(520px, 80vw);
+}
+.hero-content { position: relative; max-width: 860px; margin-inline: auto; }
+
+.hero-title {
+  margin-top: 22px;
+  font-size: clamp(2.25rem, 5vw + 1rem, 3.75rem); /* 36px → 60px */
+}
+.hero-subtitle {
+  margin-top: 24px;
+  font-size: clamp(1.125rem, 1vw + 1rem, 1.375rem);
+  color: var(--ink);
+  max-width: 60ch;
+  margin-inline: auto;
+}
+.hero-support {
+  margin-top: 18px;
+  color: var(--muted);
+  font-size: 1.0625rem;
+  max-width: 56ch;
+  margin-inline: auto;
+}
+.hero-cta { margin-top: 36px; }
+.hero-reassure {
+  margin-top: 16px;
+  font-size: 0.9375rem;
+  color: var(--muted);
+}
+
+/* --- DOR (a seção mais importante — visualmente forte) --- */
+.pain-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+.pain-card {
+  display: flex;
+  gap: 16px;
+  padding: 26px 24px;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+}
+.pain-card .icon {
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  color: var(--accent);              /* ícone com toque de acento */
+  stroke-width: 1.5;
+}
+.pain-card p { color: var(--ink); }
+
+/* --- VIRADA (texto + destaque grande em acento) --- */
+.turn { text-align: center; }
+.turn-text {
+  max-width: 60ch;
+  margin: 0 auto;
+  color: var(--muted);
+  font-size: clamp(1.125rem, 1vw + 1rem, 1.3125rem);
+}
+.turn-highlight {
+  margin-top: 40px;
+  font-family: var(--font-title);
+  font-weight: 500;
+  font-size: clamp(1.5rem, 2.5vw + 0.5rem, 2.125rem);
+  line-height: 1.3;
+  letter-spacing: -0.5px;
+  color: var(--accent);             /* destaque na cor de acento */
+}
+
+/* --- COMO FUNCIONA (passos numerados, números grandes em acento) --- */
+.steps {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  counter-reset: step;
+}
+.step {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  gap: 22px;
+  padding: 24px 6px;
+  border-bottom: 1px solid var(--line);
+}
+.step:last-child { border-bottom: 0; }
+.step-num {
+  font-family: var(--font-title);
+  font-weight: 500;
+  font-size: clamp(2.25rem, 4vw, 3rem);
+  line-height: 1;
+  color: var(--accent);             /* "1,2,3,4" grandes em terracota */
+  min-width: 1.4ch;
+}
+.step-body h3 { font-size: 1.25rem; margin-bottom: 6px; }
+.step-body p { color: var(--muted); }
+
+/* --- RESULTADO (itens com ícone) --- */
+.result-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+}
+.result-item {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+.result-item .icon {
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  color: var(--accent);
+  stroke-width: 1.5;
+}
+.result-item p { color: var(--ink); }
+
+/* --- DIFERENCIAL (atendimento humano) --- */
+.feature { max-width: 760px; }
+.feature p + p { margin-top: 18px; }
+.feature p { color: var(--muted); }
+
+/* --- URGÊNCIA (reforma tributária) --- */
+.urgency { max-width: 760px; }
+.urgency p + p { margin-top: 18px; }
+.urgency p { color: var(--muted); }
+
+/* --- PARA QUEM É --- */
+.audience { max-width: 720px; }
+.audience p { color: var(--muted); font-size: clamp(1.125rem, 1vw + 1rem, 1.3125rem); }
+
+/* --- CTA FINAL (ÚNICO bloco escuro — fecha com peso) --- */
+.cta-final {
+  position: relative;
+  overflow: hidden;
+  background: var(--ink);
+  color: var(--white);
+  text-align: center;
+}
+.cta-final .compass-bg {
+  color: var(--white);              /* linhas de bússola em branco, bem fracas */
+  opacity: 0.06;
+  top: 50%;
+  left: 50%;
+  width: min(640px, 110vw);
+  height: min(640px, 110vw);
+  transform: translate(-50%, -50%);
+}
+.cta-final-inner { position: relative; max-width: 720px; margin-inline: auto; }
+.cta-final .section-title { color: var(--white); }
+.cta-final-text {
+  margin-top: 20px;
+  color: rgba(255, 255, 255, 0.78);
+  max-width: 56ch;
+  margin-inline: auto;
+}
+.cta-final-btn { margin-top: 36px; }
+.cta-scarcity {
+  margin-top: 20px;
+  font-size: 0.9375rem;
+  color: var(--accent-soft);        /* toque de acento no detalhe de escassez */
+}
+
+/* ============================================================
+   7. RODAPÉ (claro — mantém o CTA final como único bloco escuro)
+   ============================================================ */
+.site-footer {
+  background: var(--paper-alt);
+  border-top: 1px solid var(--line);
+  padding-block: 48px;
+}
+.footer-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+.footer-tagline {
+  font-family: var(--font-title);
+  color: var(--muted);
+  font-size: 0.9375rem;
+  margin-top: 8px;
+}
+.footer-contact {
+  font-size: 0.9375rem;
+  color: var(--muted);
+  text-align: right;
+}
+.footer-contact a { color: var(--ink); }
+.footer-contact a:hover { color: var(--accent); }
+
+/* ============================================================
+   8. SCROLL-REVEAL (fade-in / slide-up sóbrio, sem bounce)
+   ============================================================ */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity .7s ease, transform .7s ease;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ============================================================
+   9. RESPONSIVO (mobile-first — abaixo, ajustes para telas maiores)
+   ============================================================ */
+
+/* Tablet em diante: dor e resultado em 2 colunas */
+@media (min-width: 720px) {
+  .pain-grid   { grid-template-columns: 1fr 1fr; gap: 20px; }
+  .result-grid { grid-template-columns: 1fr 1fr; gap: 28px 40px; }
+}
+
+/* Esconde a tagline do rodapé empilhada virar lado a lado já acontece via flex-wrap */
+
+/* Telas estreitas: cabeçalho mais enxuto */
+@media (max-width: 460px) {
+  .logo-word { font-size: 1.1875rem; }
+  .btn--ghost { padding: 10px 14px; }
+}
+
+/* ============================================================
+   10. ACESSIBILIDADE — respeita quem prefere menos movimento
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+  .btn { transition: none; }
+}
