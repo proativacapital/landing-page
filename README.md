@@ -41,14 +41,15 @@ Depois abra no navegador: **http://localhost:8000**
 
 Todos os pontos de edição estão marcados no código com comentários `<!-- EDITAR: ... -->`.
 
-### 1. Trocar o link do formulário (`#FORM_LINK`)
-Quando o formulário no **Tally** ou **Google Forms** estiver pronto, faça um
-"localizar e substituir" em `index.html`:
+### 1. Trocar o link do formulário
+O formulário do **Google Forms** já está integrado. Hoje os botões apontam para:
 
-- Procure por: `#FORM_LINK`
-- Substitua por: o link do seu formulário (ex.: `https://tally.so/r/xxxxx`)
+```
+https://docs.google.com/forms/d/e/1FAIpQLScPJijE1CZrWSDbSmMruF56O_ziNYkAtK6cnlusNtegjIzhUQ/viewform
+```
 
-São **3 botões** que apontam pra lá (hero, CTA final e rodapé) + o contato do rodapé.
+Para usar outro formulário no futuro, faça um "localizar e substituir" dessa URL em
+`index.html` pela nova. São **3 links** (hero, CTA final e rodapé), todos abrindo em nova aba.
 
 > As perguntas sugeridas para o formulário de qualificação estão anotadas como
 > comentário dentro do `index.html`, logo acima da Seção 9 (CTA final).
