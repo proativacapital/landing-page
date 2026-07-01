@@ -9,7 +9,7 @@ Stack: **HTML + CSS + JavaScript puro** (sem framework, sem build). É só abrir
 landing-page/
 ├── index.html     → estrutura e textos (a copy mora aqui)
 ├── styles.css     → identidade visual (cores, tipografia, espaçamento)
-├── script.js      → nome da marca + animações
+├── script.js      → nome da marca + lista de espera + animações
 ├── favicon.svg    → símbolo da bússola
 └── README.md      → este arquivo
 ```
@@ -41,18 +41,42 @@ Depois abra no navegador: **http://localhost:8000**
 
 Todos os pontos de edição estão marcados no código com comentários `<!-- EDITAR: ... -->`.
 
-### 1. Trocar o link do formulário
-O formulário do **Google Forms** já está integrado. Hoje os botões apontam para:
+### 1. Conectar a lista de espera (FAÇA ISTO ANTES DE PUBLICAR)
+O e-mail agora é capturado **na própria página** (seção escura "Entre na lista de espera").
+Para os e-mails realmente chegarem até você, ligue o formulário a um destino.
+Hoje, sem custo, o caminho mais simples é o **Formspree**:
+
+1. Crie uma conta grátis em **formspree.io** e clique em **New form**.
+2. Aponte o e-mail de notificação para o seu (ex.: o seu Gmail) e salve.
+3. O Formspree te dá um endereço assim: `https://formspree.io/f/abcdwxyz`.
+4. Abra **`script.js`** e cole esse endereço **nesta única linha** (perto do topo):
+
+   ```js
+   const WAITLIST_ENDPOINT = "https://formspree.io/f/abcdwxyz";
+   ```
+
+5. Pronto. A cada inscrição, você recebe um e-mail com **e-mail, nome, escritório e faixa de CNPJs**.
+   (No Formspree dá pra exportar tudo em CSV depois.)
+
+> **Modo demonstração:** enquanto `WAITLIST_ENDPOINT` estiver vazio (`""`), o formulário
+> valida o e-mail e mostra a confirmação na tela, mas **não guarda nada** — e deixa um aviso
+> no console do navegador. Sempre preencha o endpoint antes de divulgar o link.
+
+> **Alternativa (Web3Forms):** também funciona — basta usar a URL
+> `https://api.web3forms.com/submit` e adicionar um `<input type="hidden" name="access_key" value="...">`
+> dentro do `<form id="waitlist-form">` no `index.html`.
+
+### 1b. (Opcional) Formulário de qualificação "furar a fila"
+Depois que a pessoa entra na lista, o estado de sucesso oferece um link para um
+**formulário de qualificação** mais completo (Google Forms), que hoje aponta para:
 
 ```
 https://docs.google.com/forms/d/e/1FAIpQLScPJijE1CZrWSDbSmMruF56O_ziNYkAtK6cnlusNtegjIzhUQ/viewform
 ```
 
-Para usar outro formulário no futuro, faça um "localizar e substituir" dessa URL em
-`index.html` pela nova. São **3 links** (hero, CTA final e rodapé), todos abrindo em nova aba.
-
-> As perguntas sugeridas para o formulário de qualificação estão anotadas como
-> comentário dentro do `index.html`, logo acima da Seção 9 (CTA final).
+Para trocá-lo, substitua essa URL no `index.html` (está no estado de sucesso, dentro da
+Seção 9). As perguntas sugeridas para esse formulário estão anotadas como comentário no
+`index.html`, logo acima da Seção 9.
 
 ### 2. Adicionar as dores reais (Seção 2 — a mais importante)
 Em `index.html`, procure por:

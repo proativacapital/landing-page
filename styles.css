@@ -418,6 +418,97 @@ strong { font-weight: 500; }         /* ênfase no corpo usa Inter 500 */
   color: var(--accent-soft);        /* toque de acento no detalhe de escassez */
 }
 
+/* Kicker sobre o bloco escuro (lista de espera) */
+.kicker--on-dark {
+  color: var(--accent-soft);
+  justify-content: center;
+  margin-bottom: 18px;
+}
+
+/* --- LISTA DE ESPERA (formulário no bloco escuro) --- */
+.waitlist {
+  max-width: 520px;
+  margin: 36px auto 0;
+  text-align: left;
+}
+.waitlist-row { margin-bottom: 12px; }
+
+/* Nome + escritório lado a lado a partir de telas médias */
+.waitlist-row--split { display: grid; grid-template-columns: 1fr; gap: 12px; }
+@media (min-width: 560px) {
+  .waitlist-row--split { grid-template-columns: 1fr 1fr; }
+}
+
+/* Campos: vidro fosco sobre o azul-noite, foco em terracota */
+.waitlist-input {
+  width: 100%;
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.3;
+  color: var(--white);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: var(--radius);
+  padding: 15px 16px;
+  transition: border-color .18s ease, background-color .18s ease;
+}
+.waitlist-input::placeholder { color: rgba(255, 255, 255, 0.5); }
+.waitlist-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: rgba(255, 255, 255, 0.10);
+}
+
+/* Select custom: esconde a seta nativa e desenha um chevron em SVG */
+.waitlist-select {
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  padding-right: 44px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9' fill='none' stroke='%23F0A283' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M1 1.5 7 7.5 13 1.5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+}
+.waitlist-select:invalid { color: rgba(255, 255, 255, 0.5); } /* placeholder-option cinza */
+/* O menu aberto é renderizado pelo SO (fundo branco): texto escuro pra legibilidade */
+.waitlist-select option { color: var(--ink); }
+
+/* Botão de envio ocupa a largura toda do formulário */
+.waitlist-submit { width: 100%; justify-content: center; margin-top: 4px; }
+.waitlist-submit[aria-busy="true"] { opacity: .7; pointer-events: none; }
+
+.waitlist-note {
+  margin-top: 14px;
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.6);
+  text-align: center;
+}
+.waitlist-error {
+  margin-top: 10px;
+  font-size: 0.9375rem;
+  color: var(--accent-soft);
+  text-align: center;
+}
+
+/* --- Estado de sucesso (substitui o formulário após o envio) --- */
+.waitlist-success { max-width: 520px; margin: 28px auto 0; text-align: center; }
+.waitlist-check {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 18px;
+  color: var(--accent);             /* tique de confirmação em terracota */
+}
+.waitlist-success h3 { color: var(--white); font-size: 1.5rem; }
+.waitlist-success p {
+  margin-top: 12px;
+  color: rgba(255, 255, 255, 0.80);
+  max-width: 46ch;
+  margin-inline: auto;
+}
+.waitlist-success-more { font-size: 0.9375rem; }
+.waitlist-success-more a { color: var(--accent-soft); }
+.waitlist-success-more a:hover { color: var(--white); }
+
 /* ============================================================
    7. RODAPÉ (claro — mantém o CTA final como único bloco escuro)
    ============================================================ */

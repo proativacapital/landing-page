@@ -43,9 +43,9 @@
         <span class="logo-word" data-brand><!-- preenchido por JS (BRAND_NAME) --></span>
       </a>
 
-      <!-- CTA do cabeçalho → rola até o bloco de CTA final (#cta-final) -->
-      <a class="btn btn--ghost" href="#cta-final">
-        Falar com a <span data-brand></span>
+      <!-- CTA do cabeçalho → rola até a lista de espera (#lista) -->
+      <a class="btn btn--ghost" href="#lista">
+        Entrar na lista
       </a>
     </div>
   </header>
@@ -95,12 +95,11 @@
           responsabilidade continuam na sua mão. Você fica livre pra crescer e atender melhor.
         </p>
 
-        <!-- CTA primário → formulário de qualificação (Google Forms). -->
-        <!-- EDITAR: para trocar o formulário, substitua a URL do Google Forms abaixo. -->
+        <!-- CTA primário → rola até a lista de espera (#lista), onde o e-mail é capturado na própria página. -->
         <div class="hero-cta">
-          <a class="btn btn--primary" href="https://docs.google.com/forms/d/e/1FAIpQLScPJijE1CZrWSDbSmMruF56O_ziNYkAtK6cnlusNtegjIzhUQ/viewform" target="_blank" rel="noopener noreferrer">Quero ver quanto vou economizar →</a>
+          <a class="btn btn--primary" href="#lista">Entrar na lista de espera →</a>
         </div>
-        <p class="hero-reassure">Leva 2 minutos. Sem compromisso, sem enrolação.</p>
+        <p class="hero-reassure">Só o e-mail. Leva 20 segundos, sem compromisso.</p>
       </div>
     </section>
 
@@ -346,19 +345,28 @@
     </section>
 
     <!-- ====================================================================
-         SEÇÃO 9 — CTA FINAL  (ÚNICO bloco escuro — fecha com peso)
+         SEÇÃO 9 — LISTA DE ESPERA  (ÚNICO bloco escuro — fecha com peso)
 
-         O CTA aponta para o FORMULÁRIO DE QUALIFICAÇÃO. Perguntas previstas
-         para esse formulário (montar em Tally/Google Forms):
+         O e-mail é capturado AQUI, na própria página (sem sair pra outra aba).
+         A lógica de envio fica em script.js (função setupWaitlist).
+
+         >>> ANTES DE PUBLICAR <<< conecte o destino dos e-mails:
+         abra script.js e preencha a constante WAITLIST_ENDPOINT
+         (passo a passo no README, seção "Conectar a lista de espera").
+         Enquanto ela estiver vazia, o formulário valida e mostra a
+         confirmação, mas NÃO guarda o e-mail (modo demonstração).
+
+         O link "furar a fila" (no estado de sucesso) aponta para o
+         FORMULÁRIO DE QUALIFICAÇÃO mais detalhado (Google Forms), com:
            1. Nome e cargo (dono, sócio ou responsável pela operação)
            2. Nome do escritório e WhatsApp
-           3. Quantos clientes (CNPJs) atende hoje? [até 50 / 50–150 / 150–300 / +300]
+           3. Quantos clientes (CNPJs) atende hoje? [até 70 / 70–150 / 150–300 / +300]
            4. Quem faz a conciliação fiscal hoje, e quanto tempo consome por mês?
            5. Usam algum sistema/ferramenta? Qual? O que ele não resolve bem?
            6. Nos últimos 6 meses, conciliação errada gerou multa, retrabalho ou
               problema com cliente?
          ==================================================================== -->
-    <section class="section cta-final" id="cta-final">
+    <section class="section cta-final" id="lista">
       <!-- Textura de bússola ao fundo, em branco bem fraco -->
       <svg class="compass-bg" viewBox="0 0 200 200" aria-hidden="true">
         <g fill="none" stroke="currentColor" stroke-width="0.75">
@@ -374,19 +382,75 @@
       </svg>
 
       <div class="container cta-final-inner reveal">
-        <h2 class="section-title">Quanto o trabalho manual está custando ao seu escritório?</h2>
+
+        <!-- Kicker de escassez/urgência -->
+        <span class="kicker kicker--on-dark">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+            <circle cx="12" cy="12" r="10" />
+            <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88" fill="currentColor" stroke="none" />
+          </svg>
+          Lote de fundadores
+        </span>
+
+        <h2 class="section-title">Entre na lista de espera da <span data-brand></span>.</h2>
         <p class="cta-final-text">
-          Sem compromisso e sem enrolação. Você nos conta como o seu escritório funciona hoje — e a gente mostra,
-          em números, quanto tempo, quanto custo e quanta dor de cabeça dá pra eliminar.
+          Estamos abrindo para um primeiro grupo de escritórios parceiros. Deixe seu e-mail e seja um dos primeiros
+          a tirar o trabalho repetitivo das costas do seu time — com condição de fundador.
         </p>
 
-        <!-- EDITAR: para trocar o formulário, substitua a URL do Google Forms abaixo. -->
-        <div class="cta-final-btn">
-          <a class="btn btn--on-dark" href="https://docs.google.com/forms/d/e/1FAIpQLScPJijE1CZrWSDbSmMruF56O_ziNYkAtK6cnlusNtegjIzhUQ/viewform" target="_blank" rel="noopener noreferrer">Quero ver meu potencial de economia →</a>
+        <!-- FORMULÁRIO DE LISTA DE ESPERA
+             novalidate: a validação é feita por JS (mensagens em português, sem bloquear o submit do navegador). -->
+        <form class="waitlist" id="waitlist-form" novalidate>
+          <div class="waitlist-row">
+            <input class="waitlist-input" type="email" name="email" id="wl-email"
+                   placeholder="Seu melhor e-mail" autocomplete="email" required />
+          </div>
+
+          <div class="waitlist-row waitlist-row--split">
+            <input class="waitlist-input" type="text" name="nome"
+                   placeholder="Seu nome (opcional)" autocomplete="name" />
+            <input class="waitlist-input" type="text" name="escritorio"
+                   placeholder="Nome do escritório (opcional)" autocomplete="organization" />
+          </div>
+
+          <div class="waitlist-row">
+            <select class="waitlist-input waitlist-select" name="cnpjs" id="wl-cnpjs"
+                    aria-label="Quantos CNPJs você atende hoje">
+              <option value="" selected>Quantos CNPJs você atende hoje?</option>
+              <option value="ate-70">Menos de 70</option>
+              <option value="70-150">70 a 150</option>
+              <option value="150-300">150 a 300</option>
+              <option value="mais-300">Mais de 300</option>
+            </select>
+          </div>
+
+          <button class="btn btn--on-dark waitlist-submit" type="submit">Garantir minha vaga →</button>
+
+          <p class="waitlist-note">Sem spam. A gente só te chama quando abrir vaga pro perfil do seu escritório.</p>
+          <p class="waitlist-error" id="wl-error" role="alert" hidden>Confira o e-mail e tente de novo.</p>
+        </form>
+
+        <!-- ESTADO DE SUCESSO (escondido até o envio dar certo; revelado por JS) -->
+        <div class="waitlist-success" id="waitlist-success" hidden>
+          <svg class="waitlist-check" viewBox="0 0 52 52" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true">
+            <circle cx="26" cy="26" r="24" stroke-opacity="0.35" />
+            <path d="M16 27 L23 34 L37 19" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <h3>Você está na lista. 🎉</h3>
+          <p>
+            Bem-vindo ao norte. Assim que abrirmos vaga para o seu escritório, você é um dos primeiros a saber —
+            no e-mail que você deixou.
+          </p>
+          <!-- Funil opcional: quem quiser adiantar preenche o formulário de qualificação mais completo. -->
+          <!-- EDITAR: troque a URL abaixo se o formulário de qualificação mudar. -->
+          <p class="waitlist-success-more">
+            Quer furar a fila?
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLScPJijE1CZrWSDbSmMruF56O_ziNYkAtK6cnlusNtegjIzhUQ/viewform"
+               target="_blank" rel="noopener noreferrer">Conte como seu escritório funciona hoje →</a>
+            e a gente já chega com números.
+          </p>
         </div>
 
-        <!-- Linha de escassez -->
-        <p class="cta-scarcity">Vagas limitadas para os primeiros escritórios parceiros. Quando lotar, a fila para.</p>
       </div>
     </section>
 
@@ -408,10 +472,10 @@
         <p class="footer-tagline">Encontre seu norte fiscal.</p>
       </div>
 
-      <!-- EDITAR: o formulário já está ligado abaixo. Preencha o WhatsApp real quando tiver. -->
+      <!-- EDITAR: preencha o WhatsApp real quando tiver. -->
       <div class="footer-contact">
         <p>Fale com a gente</p>
-        <p><a href="https://docs.google.com/forms/d/e/1FAIpQLScPJijE1CZrWSDbSmMruF56O_ziNYkAtK6cnlusNtegjIzhUQ/viewform" target="_blank" rel="noopener noreferrer">Quero saber meu potencial →</a></p>
+        <p><a href="#lista">Entrar na lista de espera →</a></p>
         <p>WhatsApp: (em breve)</p>
       </div>
     </div>
